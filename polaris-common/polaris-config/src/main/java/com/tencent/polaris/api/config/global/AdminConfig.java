@@ -3,8 +3,8 @@
  *
  * Copyright (C) 2019 THL A29 Limited, a Tencent company. All rights reserved.
  *
- * Licensed under the BSD 3-Clause License (the "License");
- * you may not use this file except in compliance with the License.
+ *  Licensed under the BSD 3-Clause License (the "License");
+ *  you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * https://opensource.org/licenses/BSD-3-Clause
@@ -15,30 +15,28 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.tencent.polaris.api.config.provider;
+package com.tencent.polaris.api.config.global;
 
 import com.tencent.polaris.api.config.verify.Verifier;
 
-public interface LosslessConfig extends Verifier {
+/**
+ * Admin Config.
+ *
+ * @author Haotian Zhang
+ */
+public interface AdminConfig extends Verifier {
 
     /**
-     * 是否启用无损上下线
+     * Admin的监听IP
      *
-     * @return 启用无损上下线
+     * @return host
      */
-    boolean isEnable();
+    String getHost();
 
     /**
-     * 如果没有实现健康检查，延迟注册的时间，单位毫秒
+     * Admin的监听端口
      *
-     * @return long
+     * @return port
      */
-    long getDelayRegisterInterval();
-
-    /**
-     * 获取健康探测的间隔时间
-     *
-     * @return long
-     */
-    long getHealthCheckInterval();
+    int getPort();
 }

@@ -22,31 +22,14 @@ import com.sun.net.httpserver.HttpHandler;
 import java.util.Map;
 
 /**
- *  plugin who want to expose port should implement this interface
+ * plugin who want to expose port should implement this interface
  */
 public interface HttpServerAware {
 
     /**
-     * get host to listen to this plugin
-     * @return host
-     */
-    String getHost();
-
-    /**
-     * get port to listen in this plugin
-     * @return port
-     */
-    int getPort();
-
-    /**
      * get the http server handlers
+     *
      * @return handlers
      */
     Map<String, HttpHandler> getHandlers();
-
-    /**
-     * 在端口冲突时允许端口漂移
-     * @return boolean
-     */
-    boolean allowPortDrift();
 }

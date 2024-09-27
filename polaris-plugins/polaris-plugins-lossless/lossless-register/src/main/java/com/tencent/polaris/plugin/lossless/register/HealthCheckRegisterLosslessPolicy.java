@@ -199,16 +199,6 @@ public class HealthCheckRegisterLosslessPolicy implements LosslessPolicy, HttpSe
         EVENT_LOG.info(event.toString());
     }
 
-    @Override
-    public String getHost() {
-        return losslessConfig.getHost();
-    }
-
-    @Override
-    public int getPort() {
-        return losslessConfig.getPort();
-    }
-
     static RegisterStatus checkRegisterStatus(
             Collection<BaseInstance> instances, Map<BaseInstance, RegisterStatus> registerStatuses) {
         RegisterStatus finalStatus = RegisterStatus.REGISTERED;
@@ -265,11 +255,5 @@ public class HealthCheckRegisterLosslessPolicy implements LosslessPolicy, HttpSe
             }
         });
         return handlers;
-    }
-
-    @Override
-    public boolean allowPortDrift() {
-        // 优雅上下线端口会配置在K8S的脚本中，不允许漂移
-        return false;
     }
 }
