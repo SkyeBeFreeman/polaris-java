@@ -15,25 +15,16 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.tencent.polaris.plugins.event.tsf.v1;
+package com.tencent.polaris.ratelimit.client.sync.tsf;
 
-public class EventResponse {
-    private Integer retCode;
-    private String retMsg;
+/**
+ * @author Haotian Zhang
+ */
+public interface TsfRateLimitConstants {
 
-    public Integer getRetCode() {
-        return retCode;
-    }
-
-    public void setRetCode(Integer retCode) {
-        this.retCode = retCode;
-    }
-
-    public String getRetMsg() {
-        return retMsg;
-    }
-
-    public void setRetMsg(String retMsg) {
-        this.retMsg = retMsg;
-    }
+    String RATE_LIMIT_MASTER_IP_KEY = "RATE_LIMIT_MASTER_IP_KEY";
+    String RATE_LIMIT_MASTER_PORT_KEY = "RATE_LIMIT_MASTER_PORT_KEY";
+    String SERVICE_NAME_KEY = "SERVICE_NAME_KEY";
+    String INSTANCE_ID_KEY = "INSTANCE_ID_KEY";
+    String TOKEN_KEY = "TOKEN_KEY";
 }

@@ -50,6 +50,7 @@ import com.tencent.polaris.plugins.connector.consul.service.ConsulService;
 import com.tencent.polaris.plugins.connector.consul.service.InstanceService;
 import com.tencent.polaris.plugins.connector.consul.service.ServiceService;
 import com.tencent.polaris.plugins.connector.consul.service.circuitbreaker.CircuitBreakingService;
+import com.tencent.polaris.plugins.connector.consul.service.ratelimiting.RateLimitingService;
 import com.tencent.polaris.plugins.connector.consul.service.router.NearByRouteRuleService;
 import com.tencent.polaris.plugins.connector.consul.service.router.RoutingService;
 import org.slf4j.Logger;
@@ -230,6 +231,7 @@ public class ConsulAPIConnector extends DestroyableServerConnector {
         consulServiceMap.put(ServiceEventKey.EventType.ROUTING, new RoutingService(consulClient, consulRawClient, consulContext, "consul-routing", mapper));
         consulServiceMap.put(ServiceEventKey.EventType.NEARBY_ROUTE_RULE, new NearByRouteRuleService(consulClient, consulRawClient, consulContext, "consul-nearby-route-rule", mapper));
         consulServiceMap.put(ServiceEventKey.EventType.CIRCUIT_BREAKING, new CircuitBreakingService(consulClient, consulRawClient, consulContext, "consul-circuit-breaking", mapper));
+        consulServiceMap.put(ServiceEventKey.EventType.RATE_LIMITING, new RateLimitingService(consulClient, consulRawClient, consulContext, "consul-rate-limiting", mapper));
         initialized = true;
     }
 

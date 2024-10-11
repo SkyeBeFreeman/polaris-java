@@ -120,7 +120,8 @@ public class CompositeServiceUpdateTask extends ServiceUpdateTask {
                 || serviceEventKey.getEventType().equals(EventType.SERVICE)
                 || serviceEventKey.getEventType().equals(EventType.ROUTING)
                 || serviceEventKey.getEventType().equals(EventType.NEARBY_ROUTE_RULE)
-                || serviceEventKey.getEventType().equals(EventType.CIRCUIT_BREAKING)))) {
+                || serviceEventKey.getEventType().equals(EventType.CIRCUIT_BREAKING)
+                || serviceEventKey.getEventType().equals(EventType.RATE_LIMITING)))) {
             return;
         }
         boolean svcDeleted = this.notifyServerEvent(
