@@ -22,6 +22,7 @@ import com.tencent.polaris.api.pojo.ServiceKey;
 import com.tencent.polaris.api.pojo.TrieNode;
 import com.tencent.polaris.logging.LoggerFactory;
 import com.tencent.polaris.metadata.core.manager.MetadataContainerGroup;
+import com.tencent.polaris.specification.api.v1.model.ModelProto;
 import com.tencent.polaris.specification.api.v1.model.ModelProto.MatchString;
 import com.tencent.polaris.specification.api.v1.model.ModelProto.MatchString.MatchStringType;
 import org.slf4j.Logger;
@@ -341,5 +342,18 @@ public class RuleUtils {
             return false;
         }
         return true;
+    }
+
+    public static boolean matchMethod(String path, String protocol, String method, ModelProto.API api,
+                                      Function<String, Pattern> regexToPattern, Function<String, TrieNode<String>> trieNodeFunction) {
+        if (trieNodeFunction != null) {
+            return RuleUtils.matchStringValue(MatchString.MatchStringType.EXACT, protocol, api.getProtocol())
+                    && RuleUtils.matchStringValue(MatchString.MatchStringType.EXACT, method, api.getMethod())
+                    && RuleUtils.matchStringValue(api.getPath().getType(), path, api.getPath().getValue().getValue(), regexToPattern, true, trieNodeFunction);
+        } else {
+            return RuleUtils.matchStringValue(MatchString.MatchStringType.EXACT, protocol, api.getProtocol())
+                    && RuleUtils.matchStringValue(MatchString.MatchStringType.EXACT, method, api.getMethod())
+                    && RuleUtils.matchStringValue(api.getPath(), path, regexToPattern);
+        }
     }
 }

@@ -31,6 +31,7 @@ import com.tencent.polaris.api.exception.PolarisException;
 import com.tencent.polaris.api.plugin.HttpServerAware;
 import com.tencent.polaris.api.plugin.Plugin;
 import com.tencent.polaris.api.plugin.Supplier;
+import com.tencent.polaris.api.plugin.auth.Authenticator;
 import com.tencent.polaris.api.plugin.cache.FlowCache;
 import com.tencent.polaris.api.plugin.circuitbreaker.CircuitBreaker;
 import com.tencent.polaris.api.plugin.circuitbreaker.InstanceCircuitBreaker;
@@ -113,6 +114,9 @@ public class Extensions extends Destroyable {
 
     // 事件上报器列表
     private List<EventReporter> eventReporterList;
+
+    // 服务鉴权插件列表
+    private List<Authenticator> authenticatorList;
 
     public static List<ServiceRouter> loadServiceRouters(List<String> routerChain, Supplier plugins, boolean force) {
         List<ServiceRouter> routers = new ArrayList<>();
@@ -206,6 +210,9 @@ public class Extensions extends Destroyable {
 
         // 加载事件上报插件
         loadEventReporterList(config, plugins);
+
+        // 加载服务鉴权插件
+        loadAuthenticatorList(config, plugins);
 
         initLocation(config, valueContext);
 
@@ -324,6 +331,24 @@ public class Extensions extends Destroyable {
                     continue;
                 }
                 eventReporterList.add((EventReporter) eventReporter);
+            }
+        }
+    }
+
+    private void loadAuthenticatorList(Configuration config, Supplier plugins) throws PolarisException {
+        if (!config.getProvider().getAuth().isEnable()) {
+            return;
+        }
+        List<String> authenticators = config.getProvider().getAuth().getChain();
+        authenticatorList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(authenticators)) {
+            for (String pluginName : authenticators) {
+                Plugin authenticator = plugins.getPlugin(PluginTypes.AUTHENTICATOR.getBaseType(), pluginName);
+                if (!(authenticator instanceof Authenticator)) {
+                    LOG.warn("authenticator {} not found", pluginName);
+                    continue;
+                }
+                authenticatorList.add((Authenticator) authenticator);
             }
         }
     }
@@ -482,6 +507,10 @@ public class Extensions extends Destroyable {
 
     public List<EventReporter> getEventReporterList() {
         return eventReporterList;
+    }
+
+    public List<Authenticator> getAuthenticatorList() {
+        return authenticatorList;
     }
 
     @Override
